@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>WEB700</title>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	</head>
+
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">Maya Clarke</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+					<li class="nav-item active"><a class="nav-link" href="/htmlDemo">Html Demo</a></li>
+				</ul>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" href="/students">Students</a></li>
+					<li class="nav-item"><a class="nav-link" href="/tas">Teaching Assistants</a></li>
+					<li class="nav-item"><a class="nav-link" href="/courses">Courses</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+			<div class="row">
+				<main class="col-md-12">
+
+
+
+					<!-- Start your code here -->
+					
+					<h1>Tables</h1>
+					<table>
+						<caption>Table 1: Student Information</caption>
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Age</th>
+								<th>Course</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>John Doe</td>
+								<td>20</td>
+								<td>WEB740</td>
+							</tr>
+							<tr>
+								<td>Jane Doe</td>
+								<td>22</td>
+								<td>WEB720</td>
+							</tr>
+							<tr>
+								<td>Bob Smith</td>
+								<td>25</td>
+								<td>WEB710</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3">Total Students: 3</td>
+							</tr>
+						</tfoot>
+					</table>
+					<br>
+					<table>
+						<caption>Table 2: Course Information</caption>
+						<thead>
+							<tr>
+								<th>Course Code</th>
+								<th>Course Name</th>
+								<th>Credits</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>WEB700</td>
+								<td>Web Development</td>
+								<td>3</td>
+							</tr>
+							<tr>
+								<td>DBS710</td>
+								<td>Database</td>
+								<td>3</td>
+							</tr>
+							<tr>
+								<td>NWK780</td>
+								<td>Networking</td>
+								<td>4</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td rowspan="2">Total Credits: 10</td>
+								<td>WEB700</td>
+								<td>3</td>
+							</tr>
+							<tr>
+								<td>DBS710</td>
+								<td>3</td>
+							</tr>
+						</tfoot>
+					</table>
+					<p>This section demonstrates the use of HTML tables to display student and course information. </p>
+
+					
+					<h1>Lists</h1>
+					<ol>
+						<li>Item 1</li>
+						<li>Item 2
+							<ul>
+								<li>Subitem 1</li>
+								<li>Subitem 2</li>
+								<li>Subitem 3</li>
+							</ul>
+						</li>
+						<li>Item 3</li>
+						<li>Item 4
+							<ol>
+								<li>Subitem 4</li>
+								<li>Subitem 5</li>
+								<li>Subitem 6</li>
+							</ol>
+						</li>
+						<li>Item 5</li>
+					</ol>
+					<p>This section is the use of  lists to display items and subitems. </p>
+
+					
+					<h1>Images</h1>
+					<img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Snowboarder_in_halfpipe.jpg">
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/240px-JavaScript-logo.png" >
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/240px-Unofficial_JavaScript_logo_2.svg.png" >
+					<p>This section demonstrates the use of images in HTML.</p>
+
+					
+					<h1>Audio</h1>
+					<audio controls>
+						<source src="https://pat-crawford-sdds.netlify.app/shared/fall-2021/web700/A3/sample-audio.mp3" type="audio/mp3">
+						<source src="https://pat-crawford-sdds.netlify.app/shared/fall-2021/web700/A3/sample-audio.ogg" type="audio/ogg">
+						
+					</audio>
+					<p>This section demonstrates the use of HTML5 audio elements to play audio files.</p>
+
+					
+                    <h1>Video</h1>
+					
+						<source src="https://pat-crawford-sdds.netlify.app/shared/fall-2021/web700/A3/sample-video.mp4" type="video/mp4">
+						<source src="https://pat-crawford-sdds.netlify.app/shared/fall-2021/web700/A3/sample-video.ogg" type="video/ogg">
+						
+					</video>
+					<p>This section demonstrates the use of HTML5 video elements to play video files.</p>
+
+					<!-- End your code here  -->
+
+
+
+				</main>
+			</div>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	</body>
+</html>
