@@ -155,7 +155,31 @@ function getCourseById(id) {
     });
 }
 
+function updateStudent(studentData) {
+    return new Promise((resolve, reject) => {
+        // Set TA to false if undefined, true otherwise
+        studentData.TA = (studentData.TA) ? true : false;
+        
+        // Convert course to number
+        studentData.course = parseInt(studentData.course);
+        
+        // Convert studentNum to number
+        studentData.studentNum = parseInt(studentData.studentNum);
+        
+        // Find the student in the array
+        const studentIndex = dataCollection.students.findIndex(student => student.studentNum === studentData.studentNum);
+        
+        if (studentIndex !== -1) {
+            // Update the student
+            dataCollection.students[studentIndex] = studentData;
+            resolve();
+        } else {
+            reject("Student not found");
+        }
+    });
+}
 
+// Add the function to module.exports
 module.exports = {
     initialize,
     getAllStudents,
@@ -163,8 +187,11 @@ module.exports = {
     getStudentByNum,
     getCourses,
     addStudent,
-    getCourseById
+    getCourseById,
+    updateStudent
 };
+
+
 
 
 

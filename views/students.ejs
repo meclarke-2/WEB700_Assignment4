@@ -1,42 +1,102 @@
 <div class="row">
-    <div class="col-md-12">
+    <main class="col-md-12">
         <br>
-        <h2>Students</h2>
+        <h2><%= student.firstName %> <%= student.lastName %> - Student: <%= student.studentNum %></h2>
         <hr />
-        
-        <% if (typeof students !== 'undefined' && students.length > 0) { %>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Student Num</th>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Status</th>
-                            <th>Course ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% students.forEach(student => { %>
-                            <tr>
-                                <td><%= student.studentNum %></td>
-                                <td><a href="/student/<%= student.studentNum %>"><%= student.firstName %> <%= student.lastName %></a></td>
-                                <td><a href="mailto:<%= student.email %>"><%= student.email %></a></td>
-                                <td><%= student.addressStreet %>, <%= student.addressCity %>, <%= student.addressProvince %></td>
-                                <td><%= student.status %></td>
-                                <td><a href="/students?course=<%= student.course %>"><%= student.course %></a></td>
-                            </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
-            </div>
-        <% } %>
-    </div>
+        <form method="post" action="/student/update">
+            <input type="hidden" name="studentNum" value="<%= student.studentNum %>" />
+            
+            <fieldset>
+                <legend>Personal Information</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>First Name:</label>
+                            <input class="form-control" name="firstName" type="text" value="<%= student.firstName %>" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Last Name:</label>
+                            <input class="form-control" name="lastName" type="text" value="<%= student.lastName %>" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input class="form-control" name="email" type="email" value="<%= student.email %>" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Address (Street):</label>
+                            <input class="form-control" name="addressStreet" type="text" value="<%= student.addressStreet %>" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Address (City):</label>
+                            <input class="form-control" name="addressCity" type="text" value="<%= student.addressCity %>" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Address (Province):</label>
+                            <input class="form-control" name="addressProvince" type="text" value="<%= student.addressProvince %>" />
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <legend>Academic Information</legend>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>College Employment:</label><br />
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="TA" id="TA" <% if (student.TA) { %>checked<% } %>>
+                            <label class="form-check-label" for="TA">Teaching Assistant</label>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Enrollment Status:</label><br />
+                            <label class="checkbox-inline">
+                                <input type="radio" name="status" value="Full Time" <% if (student.status === "Full Time") { %>checked<% } %> /> Full Time
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="radio" name="status" value="Part Time" <% if (student.status === "Part Time") { %>checked<% } %> /> Part Time
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="course">Enrolled in Course:</label>
+                            <select class="form-control" name="course" id="course">
+                                <option value="1" <% if (student.course == 1) { %>selected<% } %>>Relational Database Design and Implementation</option>
+                                <option value="2" <% if (student.course == 2) { %>selected<% } %>>Java Programming</option>
+                                <option value="3" <% if (student.course == 3) { %>selected<% } %>>Introduction to Cloud Computing</option>
+                                <option value="4" <% if (student.course == 4) { %>selected<% } %>>Database Administration and Management</option>
+                                <option value="5" <% if (student.course == 5) { %>selected<% } %>>Web Programming</option>
+                                <option value="6" <% if (student.course == 6) { %>selected<% } %>>Applied Capstone Project</option>
+                                <option value="7" <% if (student.course == 7) { %>selected<% } %>>Database Connectivity Using Java</option>
+                                <option value="8" <% if (student.course == 8) { %>selected<% } %>>Accessing Big Data</option>
+                                <option value="9" <% if (student.course == 9) { %>selected<% } %>>Datawarehousing</option>
+                                <option value="10" <% if (student.course == 10) { %>selected<% } %>>Security in Databases and Web Applications</option>
+                                <option value="11" <% if (student.course == 11) { %>selected<% } %>>Work Term Preparation</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            
+            <hr />
+            <input type="submit" class="btn btn-primary float-right" value="Update Student" /><br /><br /><br />
+        </form>
+    </main>
 </div>
-
-<% if (typeof message !== 'undefined') { %>
-    <div class="col-md-12 text-center">
-        <strong><%= message %></strong>
-    </div>
-<% } %>
