@@ -142,5 +142,31 @@ function getStudentByNum(num) {
     });
 }
 
-module.exports = { initialize, getStudentsByCourse, getStudentByNum };
+
+function getCourseById(id) {
+    return new Promise((resolve, reject) => {
+        const course = dataCollection.courses.find(course => course.courseId == id);
+        
+        if (course) {
+            resolve(course);
+        } else {
+            reject("query returned 0 results");
+        }
+    });
+}
+
+
+module.exports = {
+    initialize,
+    getAllStudents,
+    getStudentsByCourse,
+    getStudentByNum,
+    getCourses,
+    addStudent,
+    getCourseById
+};
+
+
+
+
 
