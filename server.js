@@ -10,92 +10,114 @@
 
 
 
-
-
-
-
-
-
-
-
-
-var HTTP_PORT = process.env.PORT || 8080;
-var express = require("express");
-var app = express();
-// setup a 'route' to listen on the default url path
-app.get("/", (req, res) => {
-res.send("Hello World!");
-});
-// setup http server to listen on HTTP_PORT
-app.listen(HTTP_PORT, ()=>{console.log("server listening on port: " + HTTP_PORT)});
-
-
 const express = require("express");
 const path = require("path");
-const collegeData = require("./modules/collegeData")
+const collegeData = require("./modules/collegeData");
 
+const app = express();
+const HTTP_PORT = process.env.PORT || 8080;
 
-collegeData.initialize()
-    .then(() => {
-        console.log("Data initialization successful.");
-    })
-    .catch(err => {
-        console.log("Data initialization failed: " + err);
-    });
+// Configure EJS
+app.set("view engine", "ejs");
 
-// GET /students 
+// Middleware
+app.use(express.urlencoded({ extended: true })); // Parse form data
+app.use(express.static("public")); // Serve static files
+
+// Custom middleware for active route tracking
+app.use((req, res, next) => {
+    let route = req.path.substring(1);
+    app.locals.activeRoute =
+        "/" +
+        (isNaN(route.split("/")[1])
+            ? route.replace(/\/(?!.*)/, "")
+            : route.replace(/\/(.*)/, ""));
+    next();
+});
+
+// Add custom EJS helpers
+app.use((req, res, next) => {
+    res.locals.navLink = function (url, options) {
+        return (
+            '<li' +
+            (url == app.locals.activeRoute
+                ? ' class="nav-item active" '
+                : ' class="nav-item" ') +
+            '><a class="nav-link" href="' +
+            url +
+            '">' +
+            options.fn(this) +
+            "</a></li>"
+        );
+    };
+
+    res.locals.equal = function (lvalue, rvalue, options) {
+        if (arguments.length < 3)
+            throw new Error("EJS Helper 'equal' needs 2 parameters");
+        return lvalue != rvalue ? options.inverse(this) : options.fn(this);
+    };
+
+    next();
+});
+
+// Routes
+app.get("/", (req, res) => res.render("home"));
+app.get("/about", (req, res) => res.render("about"));
+app.get("/htmlDemo", (req, res) => res.render("htmlDemo"));
+
 app.get("/students", (req, res) => {
-    let course = req.query.course;
-
-    if (course) {
-        collegeData.getStudentsByCourse(course)
-            .then(students => res.json(students))
-            .catch(() => res.json({ message: "no results" }));
+    if (req.query.course) {
+        collegeData
+            .getStudentsByCourse(req.query.course)
+            .then((data) => res.render("students", { students: data }))
+            .catch(() => res.render("students", { message: "no results" }));
     } else {
-        collegeData.getAllStudents()
-            .then(students => res.json(students))
-            .catch(() => res.json({ message: "no results" }));
+        collegeData
+            .getAllStudents()
+            .then((data) => res.render("students", { students: data }))
+            .catch(() => res.render("students", { message: "no results" }));
     }
 });
-// GET /tas 
-app.get("/tas", (req, res) => {
-    collegeData.getTAs()
-        .then(tas => res.json(tas))
-        .catch(() => res.json({ message: "no results" }));
-});
 
-// GET /courses 
 app.get("/courses", (req, res) => {
-    collegeData.getCourses()
-        .then(courses => res.json(courses))
-        .catch(() => res.json({ message: "no results" }));
+    collegeData
+        .getCourses()
+        .then((data) => res.render("courses", { courses: data }))
+        .catch(() => res.render("courses", { message: "no results" }));
 });
 
-// GET /student/:num 
 app.get("/student/:num", (req, res) => {
-    let studentNum = req.params.num;
-    collegeData.getStudentByNum(studentNum)
-        .then(student => res.json(student))
+    collegeData
+        .getStudentByNum(req.params.num)
+        .then((data) => res.render("student", { student: data }))
+        .catch(() => res.render("student", { message: "no results" }));
+});
+
+app.get("/students/add", (req, res) => res.render("addStudent"));
+
+app.post("/students/add", (req, res) => {
+    collegeData
+        .addStudent(req.body)
+        .then(() => res.redirect("/students"))
+        .catch((err) => res.status(500).send("Unable to add student: " + err));
+});
+
+app.get("/tas", (req, res) => {
+    collegeData
+        .getTAs()
+        .then((data) => res.json(data))
         .catch(() => res.json({ message: "no results" }));
 });
 
-// GET / 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "views/home.html"));
-});
+// 404 Page Not Found
+app.use((req, res) => res.status(404).send("Page Not Found"));
 
-// GET /about 
-app.get("/about", (req, res) => {
-    res.sendFile(path.join(__dirname, "views/about.html"));
-});
-
-// GET /htmlDemo 
-app.get("/htmlDemo", (req, res) => {
-    res.sendFile(path.join(__dirname, "views/htmlDemo.html"));
-});
-
-// no matching route
-app.use((req, res) => {
-    res.status(404).send("Page Not Found");
-});
-
+// Initialize data and start server
+collegeData
+    .initialize()
+    .then(() => {
+        app.listen(HTTP_PORT, () =>
+            console.log("Server listening on port: " + HTTP_PORT)
+        );
+    })
+    .catch((err) => console.error("Error initializing data:", err));
